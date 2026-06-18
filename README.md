@@ -93,10 +93,8 @@ Auto-threshold initialisation (Otsu / ISODATA / Li / Manual) is available on loa
 
 | Model | Params | Inference @ 4096 | Checkpoint |
 |-------|--------|------------------|------------|
-| **Att-DHPSegNet** (recommended) | 1.98M | 7.4 s (M4 MPS) | `light_att_unet_best.pth` |
+| **Att-DHPSegNet** (recommended) | 1.98M | 7.4 s (M4 MPS) | `att_dhpsegnet_best.pth` |
 | DHPSegNet | 1.94M | 3.8 s (M4 MPS) | `dhpsegnet_best.pth` |
-| Attention U-Net | 7.89M | 52 s (M4 MPS) | `att_unet_best.pth` |
-| HabitatNet | 14.42M | OOM on 16 GB | `habitatnet_ewp_best.pth` |
 
 All models use the same fully convolutional inference — no resizing required. See [checkpoints/README.md](checkpoints/README.md) for download links.
 

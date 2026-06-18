@@ -5,7 +5,7 @@ Download them from the GitHub Release and place them in this folder (`checkpoint
 
 | File | Model | Size |
 |------|-------|------|
-| `light_att_unet_best.pth` | Att-DHPSegNet (**recommended**) | ~8 MB |
+| `att_dhpsegnet_best.pth` | Att-DHPSegNet (**recommended**) | ~8 MB |
 | `att_unet_best.pth` | Attention U-Net | ~32 MB |
 | `habitatnet_ewp_best.pth` | HabitatNet | ~57 MB |
 
@@ -13,7 +13,7 @@ Download them from the GitHub Release and place them in this folder (`checkpoint
 
 ```bash
 # Recommended model only
-wget -P checkpoints/ https://github.com/garimayadav97/DHPSegNet/releases/download/v1.0/light_att_unet_best.pth
+wget -P checkpoints/ https://github.com/garimayadav97/DHPSegNet/releases/download/v1.0/att_dhpsegnet_best.pth
 
 # All models
 wget -P checkpoints/ https://github.com/garimayadav97/DHPSegNet/releases/download/v1.0/att_unet_best.pth

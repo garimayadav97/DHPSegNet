@@ -8,11 +8,12 @@ build/
 .env
 .venv/
 
-# Model weights (too large — download from Zenodo, see checkpoints/README.md)
+# Model weights (too large — download from GitHub Releases, see checkpoints/README.md)
 *.pth
 *.pt
 *.keras
 *.h5
+checkpoints_collab/
 
 # Data and results (not part of the software package)
 NEON_data/

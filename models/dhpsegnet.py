@@ -56,6 +56,7 @@ class DHPSegNet(nn.Module):
     Lightweight U-Net for DHP sky/vegetation segmentation.
 
     Channels: [16, 32, 64, 128, 256]  (half-width vs standard U-Net)
+    Upsampling: bilinear interpolation + skip concatenation (no ConvTranspose2d)
     Parameters: ~1.94M
     Inference at 4096×4096: ~3.8 s on Apple M4 (MPS)
 
@@ -70,14 +71,11 @@ class DHPSegNet(nn.Module):
         self.enc3 = ConvBnRelu(c[1], c[2])
         self.enc4 = ConvBnRelu(c[2], c[3])
         self.bot  = ConvBnRelu(c[3], c[4])
-        self.up4  = nn.ConvTranspose2d(c[4], c[3], 2, stride=2)
-        self.dec4 = ConvBnRelu(c[4], c[3])
-        self.up3  = nn.ConvTranspose2d(c[3], c[2], 2, stride=2)
-        self.dec3 = ConvBnRelu(c[3], c[2])
-        self.up2  = nn.ConvTranspose2d(c[2], c[1], 2, stride=2)
-        self.dec2 = ConvBnRelu(c[2], c[1])
-        self.up1  = nn.ConvTranspose2d(c[1], c[0], 2, stride=2)
-        self.dec1 = ConvBnRelu(c[1], c[0])
+        # decoder input = upsampled channels + skip channels
+        self.dec4 = ConvBnRelu(c[4] + c[3], c[3])
+        self.dec3 = ConvBnRelu(c[3] + c[2], c[2])
+        self.dec2 = ConvBnRelu(c[2] + c[1], c[1])
+        self.dec1 = ConvBnRelu(c[1] + c[0], c[0])
         self.out  = nn.Conv2d(c[0], 1, 1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -86,10 +84,10 @@ class DHPSegNet(nn.Module):
         e3 = self.enc3(self.pool(e2))
         e4 = self.enc4(self.pool(e3))
         b  = self.bot(self.pool(e4))
-        d4 = self.dec4(torch.cat([self.up4(b),  e4], 1))
-        d3 = self.dec3(torch.cat([self.up3(d4), e3], 1))
-        d2 = self.dec2(torch.cat([self.up2(d3), e2], 1))
-        d1 = self.dec1(torch.cat([self.up1(d2), e1], 1))
+        d4 = self.dec4(torch.cat([F.interpolate(b,  size=e4.shape[2:], mode='bilinear', align_corners=True), e4], 1))
+        d3 = self.dec3(torch.cat([F.interpolate(d4, size=e3.shape[2:], mode='bilinear', align_corners=True), e3], 1))
+        d2 = self.dec2(torch.cat([F.interpolate(d3, size=e2.shape[2:], mode='bilinear', align_corners=True), e2], 1))
+        d1 = self.dec1(torch.cat([F.interpolate(d2, size=e1.shape[2:], mode='bilinear', align_corners=True), e1], 1))
         return torch.sigmoid(self.out(d1))
 
 
@@ -161,7 +159,7 @@ class AttentionUNet(nn.Module):
         self.enc2 = ConvBnRelu(c[0], c[1])
         self.enc3 = ConvBnRelu(c[1], c[2])
         self.enc4 = ConvBnRelu(c[2], c[3])
-        self.bottleneck = ConvBnRelu(c[3], c[4])
+        self.bot  = ConvBnRelu(c[3], c[4])
         self.att4 = AttentionGate(c[4], c[3], c[2])
         self.att3 = AttentionGate(c[3], c[2], c[1])
         self.att2 = AttentionGate(c[2], c[1], c[0])
@@ -181,7 +179,7 @@ class AttentionUNet(nn.Module):
         e2 = self.enc2(self.pool(e1))
         e3 = self.enc3(self.pool(e2))
         e4 = self.enc4(self.pool(e3))
-        b  = self.bottleneck(self.pool(e4))
+        b  = self.bot(self.pool(e4))
         d4 = self.dec4(torch.cat([self.up4(b),  self.att4(b,  e4)], 1))
         d3 = self.dec3(torch.cat([self.up3(d4), self.att3(d4, e3)], 1))
         d2 = self.dec2(torch.cat([self.up2(d3), self.att2(d3, e2)], 1))
@@ -265,7 +263,7 @@ _MODEL_REGISTRY = {
 
 _DEFAULT_CKPT = {
     "dhpsegnet":     "dhpsegnet_best.pth",
-    "att-dhpsegnet": "light_att_unet_best.pth",
+    "att-dhpsegnet": "att_dhpsegnet_best.pth",
     "att-unet":      "att_unet_best.pth",
     "habitatnet":    "habitatnet_ewp_best.pth",
 }

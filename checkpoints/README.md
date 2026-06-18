@@ -1,26 +1,26 @@
 # Model Weights
 
 Pre-trained checkpoint files are not stored in this repository due to file size.
-Download them from the links below and place them in this folder (`checkpoints/`).
+Download them from the GitHub Release and place them in this folder (`checkpoints/`).
 
-| File | Model | Size | Link |
-|------|-------|------|------|
-| `light_att_unet_best.pth` | Att-DHPSegNet (**recommended**) | ~8 MB | [Zenodo](https://zenodo.org) |
-| `att_unet_best.pth` | Attention U-Net | ~32 MB | [Zenodo](https://zenodo.org) |
-| `habitatnet_ewp_best.pth` | HabitatNet | ~57 MB | [Zenodo](https://zenodo.org) |
+| File | Model | Size |
+|------|-------|------|
+| `light_att_unet_best.pth` | Att-DHPSegNet (**recommended**) | ~8 MB |
+| `att_unet_best.pth` | Attention U-Net | ~32 MB |
+| `habitatnet_ewp_best.pth` | HabitatNet | ~57 MB |
 
-> **Note:** Zenodo links will be added upon paper acceptance. Contact the authors for early access.
-
-## Quick download (once links are live)
+## Download
 
 ```bash
 # Recommended model only
-wget -P checkpoints/ <zenodo_url>/light_att_unet_best.pth
+wget -P checkpoints/ https://github.com/garimayadav97/DHPSegNet/releases/download/v1.0/light_att_unet_best.pth
 
 # All models
-wget -P checkpoints/ <zenodo_url>/att_unet_best.pth
-wget -P checkpoints/ <zenodo_url>/habitatnet_ewp_best.pth
+wget -P checkpoints/ https://github.com/garimayadav97/DHPSegNet/releases/download/v1.0/att_unet_best.pth
+wget -P checkpoints/ https://github.com/garimayadav97/DHPSegNet/releases/download/v1.0/habitatnet_ewp_best.pth
 ```
+
+Or download from the [Releases page](https://github.com/garimayadav97/DHPSegNet/releases).
 
 ## Hardware requirements
 

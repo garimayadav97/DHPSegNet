@@ -26,7 +26,7 @@ cd DHPSegNet
 pip install -r requirements.txt
 ```
 
-Download model weights → see [checkpoints/README.md](checkpoints/README.md).
+Download model weights from the [Releases page](https://github.com/garimayadav97/DHPSegNet/releases) and place `.pth` files in `checkpoints/`. See [checkpoints/README.md](checkpoints/README.md) for details.
 
 ---
 

@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.env
+.venv/
+
+# Model weights (too large — download from Zenodo, see checkpoints/README.md)
+*.pth
+*.pt
+*.keras
+*.h5
+
+# Data and results (not part of the software package)
+NEON_data/
+licor_data/
+results/
+train_imgs/
+train_imgs_masked/
+manual_masks/
+manual_masks_draft/
+annotation_tool/manual_masks/
+annotation_tool/_drafts/
+seg_*/
+pixel_data.xlsx
+
+# Analysis scripts (not part of the public package)
+analyse_by_condition.py
+classify_conditions.py
+classify_sky.py
+compare_lai_licor.py
+compute_best_lai_all.py
+compute_lai_dhpseg_methods.py
+compute_seg_accuracy_by_condition.py
+config.py
+export_seg_table_excel.py
+fine_gap_analysis.py
+make_lai_metrics_table.py
+make_lai_scatter_figs.py
+make_metrics_table.py
+parse_licor.py
+plot_*.py
+refilter_per_method_iqr.py
+remove_outliers_iqr.py
+resolution_sensitivity.py
+run_inference.py
+statistical_comparison.py
+time_inference.py
+utils.py
+
+# Manuscript and documents
+*.docx
+manuscript_draft_v3.md
+~$*
+
+# Notebooks (except example/)
+DHPSegNet_Keras_v2.ipynb
+DHP_Segmentation_Training_v2.ipynb
+colab_train_v2.ipynb
+
+# Standby / scratch
+_standby/
+
+# Reference PDFs
+reference_papers/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
